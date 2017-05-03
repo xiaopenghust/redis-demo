@@ -10,4 +10,10 @@ public interface IUserOperationsService {
     void add(User user);
 
     User getUser(String key);
+
+    void removeUser(String id);
+
+    void updateUser(User user);
+
+    User queryUser(String id);
 }

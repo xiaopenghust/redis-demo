@@ -31,7 +31,6 @@ public class UserOperationsServiceImpl implements IUserOperationsService {
         valueops.set(user.getId(), user);
     }
 
-
     @Override
     public User getUser(String key) {
         ValueOperations<String, User> valueops = redisTemplate
@@ -40,4 +39,17 @@ public class UserOperationsServiceImpl implements IUserOperationsService {
         return user;
     }
 
+    @Override
+    public void removeUser(String id) {
+        redisTemplate.delete(id);
+    }
+
+    @Override
+    public void updateUser(User user) {
+    }
+
+    @Override
+    public User queryUser(String id) {
+        return (User)redisTemplate.opsForValue().get(id);
+    }
 }

@@ -10,10 +10,32 @@
             http://www.springframework.org/schema/context
             http://www.springframework.org/schema/context/spring-context.xsd">
 
-    <mvc:annotation-driven />
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean"/>
+
+    <mvc:annotation-driven conversion-service="conversionService" >
+        <mvc:message-converters>
+            <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+            <bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter ">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/plain;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <context:component-scan base-package="com.sharp.redis"/>
     <context:annotation-config />
+
+
 
     <import resource="redis-context.xml"/>
 </beans>
